@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--    读取properties-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+<!--    配置数据源-->
+    <bean id="dataSource"
+    class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/taotie"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+<!--    类似于sqlSession的工厂-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="typeAliasesPackage" value="cn.gzy.entity"/>
+<!--        <property name="mapperLocations" value="classpath:/mappers/*.xml"/>-->
+        <property name="configLocation" value=" classpath:config.xml"/>
+    </bean>
+<!--    mapper映射管理-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="cn.gzy.mapper"/>
+    </bean>
+    <bean id="customerService1" class="cn.gzy.service.impl.CustomerImpl">
+<!--        <constructor-arg ref="customerDao"/>-->
+    </bean>
+</beans>
+
+        <!--    <bean id="customerDao" class="cn.gzy.dao.impl.CustomerDaoImpl">     </bean>-->
+        <!--    -->
+        <!--    -->
+        <!--    <bean id="customerService2" class="cn.gzy.service.impl.CustomerImpl">-->
+        <!--        <property name="customerDao" ref="customerDao"/>-->
+        <!--    </bean>-->

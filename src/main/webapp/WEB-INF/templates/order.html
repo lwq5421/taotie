@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>order</title>
+    <link rel="stylesheet" href="/taotie_Web_exploded/statics/css/order.css">
+</head>
+<body>
+<script th:inline="javascript">
+    let obj = [[${#session != null ? #session.getAttribute('me') : null}]]
+    if(obj == null){
+        location.href="/taotie_Web_exploded/login"
+    }
+</script>
+    <h3 th:with="me=${#session != null ? #session.getAttribute('me') : null}"
+        th:text="${me} != null ?${me.customerNickname}+'的订单':''"></h3>
+    <ul>
+        <li th:each="order : ${orders}">
+            <h4>
+                <span class="title">订单号:</span><span th:text="${order.orderId}">xxxxx</span>
+            </h4>
+            <div>
+                <span class="title">总价:</span><span th:text="${order.orderAmount}">xxxxx</span>
+            </div>
+            <div>
+               <span class="title">时间:</span><span  th:text="${#temporals.format(order.orderCreateTime,'yyyy-MM-dd HH:mm:ss')}"></span>
+            </div>
+            <div>
+                <span class="title" >状态:</span><span th:text='${order.orderStatus == 1 ? "生成" : (order.orderStatus == 2 ? "食用" : (order.orderStatus == 3 ? "完成" : "")) }'></span>
+            </div>
+        </li>
+        <li>
+            <h4>订单号</h4>
+            <div>总价</div>
+            <div>时间</div>
+            <div>状态</div>
+        </li>
+    </ul>
+    <footer class="main">
+        <a th:href="@{/}">返回首页</a>
+    </footer>
+    <script src="/taotie_Web_exploded/statics/js/order.js"></script>
+</body>
+</html>

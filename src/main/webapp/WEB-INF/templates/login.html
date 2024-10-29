@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" href="/taotie_Web_exploded/statics/css/login.css">
+</head>
+<body>
+    <div class="form_box">
+        <div th:text="${msg}" class="msg"></div>
+        <form action="/taotie_Web_exploded/login" method="post">
+            <div class="form_group">
+                <span>手机号</span>
+                <input type="text" name="phone">
+            </div>
+            <div class="form_group">
+                <span>密码</span>
+                <input type="password" name="password">
+            </div>
+            <div class="form_group">
+                <button>进入店铺</button>
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>

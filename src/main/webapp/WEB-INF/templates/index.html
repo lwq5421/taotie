@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <link rel="stylesheet" href="/taotie_Web_exploded/statics/css/index.css">
+</head>
+<body>
+    <script th:inline="javascript">
+        let obj = [[${#session != null ? #session.getAttribute('me') : null}]]
+        if(obj == null){
+            location.href="/taotie_Web_exploded/login"
+        }
+    </script>
+    <div class="header" th:with="me=${#session != null ? #session.getAttribute('me') : null}">
+        <div>
+            <span>饕餮快餐</span>
+            <span th:text="${me} != null ?'欢迎'+${me.customerNickname}+'到来！！':''"></span>
+            <a th:href="@{/order/showOrders}" style="color: white;text-decoration: none;">我的订单</a>
+            <input type="hidden" th:value="${me} != null?${me.customerId}:''"/>
+        </div>
+        <footer>
+            <h3>最畅销 <span style="position: relative;top:5px;"><img src="/taotie_Web_exploded/statics/images/hot.png" alt="" style="height:26px"></span></h3>
+            <div>
+                <div th:each="food : ${top3}" class="food3_item" th:id="${food.foodId}">
+                    <div class="food3_img">
+                        <img th:src="'/taotie_Web_exploded/' + ${food.foodAvatar}" alt="">
+                    </div>
+                    <div class="food3_name">
+                        <div th:utext="${food.foodName}"></div>
+                        <div th:text="${food.foodPrice}">
+                    </div>
+
+                    </div>
+                    <div class="add_order3_list">加入订单</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="view">
+        <nav>
+            <div class="nav_item" th:each="type : ${types}"
+                 th:text="${type}">
+                酒水
+            </div>
+        </nav>
+        <section>
+            <div  th:each="food : ${foods}" class="food_item" th:id="${food.foodId}">
+                <div class="food_img">
+                    <img th:src="'/taotie_Web_exploded/' + ${food.foodAvatar}" alt="">
+                </div>
+                <div>
+                    <div class="food_name" th:utext="${food.foodName} + '<span>￥'+${food.foodPrice}+'</span>'">
+                    </div>
+                    <div class="food_desc" th:text="${food.foodDesc}">
+                        desc
+                    </div>
+                    <div class="add_order_list">加入订单</div>
+                </div>
+            </div>
+        </section>
+        <div class="commit_order">
+            提交
+        </div>
+    </div>
+
+    <script src="/taotie_Web_exploded/statics/js/index.js"></script>
+</body>
+</html>
